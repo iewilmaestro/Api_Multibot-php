@@ -1,5 +1,11 @@
 <?php
-Class RequestApi {
+Class RequestApi{
+	public $host;
+	public $apikey;
+	function __construct($host, $apikey){
+		$this->host = $host;
+		$this->apikey = $apikey;
+	}
 	function in_api($data, $method = "POST"){
 		$data =  "key=".$this->apikey."&json=1&".$data;
 		if($method == "GET")return json_decode(file_get_contents($this->host.'/in.php?'.$data),1);
@@ -44,11 +50,11 @@ Class RequestApi {
 		}
 	}
 }
-Class ApiXevil extends RequestApi {
+Class ApiMultibot extends RequestApi {
 	public $apikey;
 	
 	function __construct($apikey){
-		$this->host = "https://sctg.xyz";
+		$this->host = "http://api.multibot.in";
 		$this->apikey = $apikey;
 	}
 	function RecaptchaV2($sitekey, $pageurl){
@@ -64,18 +70,18 @@ Class ApiXevil extends RequestApi {
 		return $this->getResult($data "GET");
 	}
 	function Ocr($img){
-		$data = "method=base64&body=".trim(str_replace('data:image/png;base64,','',$img));
+		$data = "method=universal&body=".trim(str_replace('data:image/png;base64,','',$img));
 		return $this->getResult($data);
 	}
 	function AntiBot($source){
-		$main = explode('"',explode('data:image/png;base64,',explode('Bot links',$source)[1])[1])[0];
+		$main = explode('"',explode('src="',explode('Bot links',$source)[1])[1])[0];
 		if(!$main)return 0;
 		$data = "method=antibot&main=$main";
 		$src = explode('rel=\"',$source);
 		foreach($src as $x => $sour){
 			if($x == 0)continue;
 			$no = explode('\"',$sour)[0];
-			$img = explode('\"',explode('data:image/png;base64,',$sour)[1])[0];
+			$img = explode('\"',explode('src=\"',$sour)[1])[0];
 			$data .= "&$no=$img";
 		}
 		$r = $this->getResult($data);
@@ -83,21 +89,17 @@ Class ApiXevil extends RequestApi {
 		return 0;
 	}
 }
-
-# 31 Mar 2024
-# https://t.me/Xevil_check_bot?start=1204538927
-# free 5 ruble
-
 error_reporting(0);
 # because no headers file get contents
 
-$apikey = "APIKEY_XEVIL";
-$api = new ApiXevil($apikey);
+
+$apikey = "APIKEY_MULTIBOT";
+$api = new ApiMultibot($host, $apikey);
 
 # Balance
 $balance = $api->getBalance();
 print " Balance: ".$balance."\n";;
-# 4.8925
+
 
 # reCaptcha
 $sitekey = "6LfD3PIbAAAAAJs_eEHvoOl75_83eXSqpPSRFJ_u";
@@ -136,4 +138,4 @@ print " ocr: ".$Ocr."\n";
 $source = file_get_contents("https://bitonefaucet.com.tr/rsshort/index.php");
 $Antibot = AntiBot($source);
 print " antibotlink: ".$Antibot."\n";
-# +1905+1004+8392+1024
+# +1905+1004+8392+10241004+8392+1024
