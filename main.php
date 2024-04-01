@@ -104,7 +104,7 @@ error_reporting(0);
 
 
 $apikey = "APIKEY_MULTIBOT";
-$api = new ApiMultibot($host, $apikey);
+$api = new ApiMultibot($apikey);
 
 # Balance
 $balance = $api->getBalance();
