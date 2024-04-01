@@ -125,7 +125,7 @@ $api = new ApiMultibot($apikey);
 # Balance
 $balance = $api->getBalance();
 print " Balance: ".$balance."\n";;
-
+# 15033
 
 # reCaptcha
 $sitekey = "6LfD3PIbAAAAAJs_eEHvoOl75_83eXSqpPSRFJ_u";
@@ -134,12 +134,12 @@ $reCaptcha = $api->RecaptchaV2($sitekey, $pageurl );
 print " reCaptcha: ".substr($reCaptcha,0,20)."\n";
 # 03AFcWeA4Rup5qQLKz3O
 
-# hCaptcha 0.0055
+# hCaptcha
 $sitekey = "9409f20b-6b75-4057-95c4-138e85f69789";
 $pageurl = "https://2captcha.com/demo/hcaptcha?difficulty=always-on";
 $hCaptcha =  $api->Hcaptcha($sitekey, $pageurl );
 print " hCaptcha: ".substr($hCaptcha,0,20)."\n";
-// P1_eyJ0eXAiOiJKV1QiL
+# P1_eyJ0eXAiOiJKV1QiL
 
 
 # turnstile
