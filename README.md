@@ -1,4 +1,4 @@
-### Gas
+# Gas
 ```php
 error_reporting(0);
 # because no headers file get contents
