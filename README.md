@@ -56,5 +56,5 @@ print " ocr: ".$Ocr."\n";
 $source = file_get_contents("https://bitonefaucet.com.tr/rsshort/index.php");
 $Antibot = $api->AntiBot($source);
 print " antibotlink: ".$Antibot."\n";
-# +1905+1004+8392+10241004+8392+1024
+# +1905+1004+8392+1024
 ```
