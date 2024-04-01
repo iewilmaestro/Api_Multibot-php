@@ -1,11 +1,5 @@
 <?php
 Class RequestApi{
-	public $host;
-	public $apikey;
-	function __construct($host, $apikey){
-		$this->host = $host;
-		$this->apikey = $apikey;
-	}
 	function in_api($data, $method = "POST"){
 		$data =  "key=".$this->apikey."&json=1&".$data;
 		if($method == "GET")return json_decode(file_get_contents($this->host.'/in.php?'.$data),1);
