@@ -74,19 +74,35 @@ Class ApiMultibot extends RequestApi {
 		return $this->getResult($data);
 	}
 	function AntiBot($source){
-		$main = explode('"',explode('src="',explode('Bot links',$source)[1])[1])[0];
+		$main = explode('"',explode('<img src="',explode('Bot links',$source)[1])[1])[0];
 		if(!$main)return 0;
-		$data = "method=antibot&main=$main";
+		$antiBot["main"] = $main;
 		$src = explode('rel=\"',$source);
 		foreach($src as $x => $sour){
 			if($x == 0)continue;
 			$no = explode('\"',$sour)[0];
 			$img = explode('\"',explode('src=\"',$sour)[1])[0];
-			$data .= "&$no=$img";
+			$antiBot[$no] = $img;
 		}
-		$r = $this->getResult($data);
-		if($r)return "+".str_replace(",","+",$r);
-		return 0;
+		$ua = "Content-type: application/x-www-form-urlencoded";
+		$data = ["key"=>$this->apikey,"method"=>"antibot","json"=>1] + $antiBot;
+		$opts = ['http' =>['method'  => 'POST','header' => $ua,'content' => http_build_query($data)]];
+		$get_in = json_decode(file_get_contents($this->host.'/in.php', false, stream_context_create($opts)),1);
+		if(!$get_in["status"]){
+			print $get_in["request"]."\n";
+			return 0;
+		}
+		while(true){
+			echo " bypass |   \r";
+			$get_res = $this->res_api($get_in["request"]);
+			if($get_res["request"] == "CAPCHA_NOT_READY"){
+				echo " bypass ─ \r";
+				$this->wait(10);
+				continue;
+			}
+			if($get_res["status"])return "+".str_replace(",","+",$get_res['request']);
+			return 0;
+		}
 	}
 }
 error_reporting(0);
